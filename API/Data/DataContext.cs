@@ -11,5 +11,7 @@ namespace API.Data
         }
          
         public DbSet<Shopper> Shoppers { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
     }
 }

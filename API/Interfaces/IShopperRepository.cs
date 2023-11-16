@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.NewFolder
 {
-    public interface IShopperService
+    public interface IShopperRepository
     {
         Task<IEnumerable<Shopper>> GetShoppersAsync();
+        Task<Shopper> GetShopperByIdAsync(int shopperId);
     }
 }

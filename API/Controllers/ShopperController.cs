@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Entities;
+using API.NewFolder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,18 +9,25 @@ namespace API.Controllers
 {    
     public class ShopperController : BaseAPIController
     {
-        private DataContext context { get; set; }
+        private IShopperRepository shopperRepository { get; set; }
 
-        public ShopperController(DataContext context)
+        public ShopperController(IShopperRepository shopperRepository)
         {
-            this.context = context;
+            this.shopperRepository = shopperRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Shopper>>> GetShoppers() 
         {
-            return await context.Shoppers.ToListAsync();
+            var shoppers = await shopperRepository.GetShoppersAsync();
+            return Ok(shoppers);
         }
-       
+
+        [HttpGet("id")]
+        public async Task<ActionResult<Shopper>> GetShopperById(int shopperId)
+        {
+            var shopper = await shopperRepository.GetShopperByIdAsync(shopperId);
+            return Ok(shopper);
+        }
     }
 }

@@ -3,6 +3,7 @@
     public class Shopper
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string ShopperName { get; set; }
+        public ICollection<ShoppingList> ShoppingList { get; set; }
     }
 }
