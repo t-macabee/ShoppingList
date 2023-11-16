@@ -6,7 +6,10 @@ namespace API.Entities
     {
         public int Id { get; set; }
         public string ListName { get; set; }
-        public DateTime DateCreated { get; set; }        
-        public ICollection<Item> Items { get; set; }
+
+        public int ShopperId { get; set; }
+        public Shopper Shopper { get; set; }
+
+        public ICollection<ShoppingListItem> ShoppingListItems { get; set; }
     }
 }

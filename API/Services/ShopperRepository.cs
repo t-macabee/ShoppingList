@@ -14,19 +14,21 @@ namespace API.Services
             this.context = context;
         }
 
-        public async Task<IEnumerable<Shopper>> GetShoppersAsync()
+        public async Task<IEnumerable<Shopper>> GetShoppers()
         {
             return await context.Shoppers
                 .Include(x => x.ShoppingList)
-                .ThenInclude(x => x.Items)
+                .ThenInclude(x => x.ShoppingListItems)
+                .ThenInclude(x => x.Item)
                 .ToListAsync();
         }
 
-        public async Task<Shopper> GetShopperByIdAsync(int shopperId)
+        public async Task<Shopper> GetShopperById(int shopperId)
         {
             return await context.Shoppers
                 .Include(x => x.ShoppingList)
-                .ThenInclude(x => x.Items)
+                .ThenInclude(x => x.ShoppingListItems)
+                .ThenInclude(x => x.Item)
                 .FirstOrDefaultAsync(x => x.Id == shopperId);
         }
     }

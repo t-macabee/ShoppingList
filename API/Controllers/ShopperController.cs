@@ -1,33 +1,35 @@
-﻿using API.Data;
+﻿using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using API.NewFolder;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {    
     public class ShopperController : BaseAPIController
     {
-        private IShopperRepository shopperRepository { get; set; }
+        private IUnitOfWork uow { get; set; }
+        private IMapper mapper { get; set; }
 
-        public ShopperController(IShopperRepository shopperRepository)
+        public ShopperController(IUnitOfWork uow, IMapper mapper)
         {
-            this.shopperRepository = shopperRepository;
+            this.uow = uow;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Shopper>>> GetShoppers() 
+        public async Task<ActionResult<IEnumerable<ShopperDto>>> GetShoppers()
         {
-            var shoppers = await shopperRepository.GetShoppersAsync();
-            return Ok(shoppers);
+            var shoppers = await uow.ShopperRepository.GetShoppers();
+            return Ok(mapper.Map<IEnumerable<ShopperDto>>(shoppers));
         }
 
         [HttpGet("id")]
         public async Task<ActionResult<Shopper>> GetShopperById(int shopperId)
         {
-            var shopper = await shopperRepository.GetShopperByIdAsync(shopperId);
-            return Ok(shopper);
+            var shopper = await uow.ShopperRepository.GetShopperById(shopperId);
+            return Ok(mapper.Map<ShopperDto>(shopper));
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿namespace API.Entities
+﻿namespace API.DTOs
 {
-    public class Item
+    public class ItemDto
     {
         public int Id { get; set; }
         public string ItemName { get; set; }
         public string Type { get; set; }
-
-        public ICollection<ShoppingListItem> ShoppingListItems { get; set; }
     }
 }
