@@ -1,6 +1,11 @@
-﻿namespace API.Services
+﻿using API.Data;
+using API.Entities;
+using API.NewFolder;
+
+namespace API.Services
 {
-    public class ShopperService
+    public class ShopperService 
     {
+       
     }
 }
