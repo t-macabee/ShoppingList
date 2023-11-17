@@ -6,15 +6,16 @@
 }
 
 .table-container table {
-  width: 30%;
+  width: 20%;
   margin: 0 auto;
 }
 
 .table-container button {
-  width: 150px;
+  width: 50px;
 }
 
 th, td {
   text-align: center;
   width: 33%;
 }
+

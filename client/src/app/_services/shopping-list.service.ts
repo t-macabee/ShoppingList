@@ -19,7 +19,7 @@ export class ShoppingListService {
   }
 
   getListForShopper(id: number) {
-    return this.http.get(this.baseUrl + 'ShoppingList/listByShopper/' + id);
+    return this.http.get<any>(this.baseUrl + 'ShoppingList/listByShopper/' + id);
   }
 
   createList(shopperId: number, listName: string) {

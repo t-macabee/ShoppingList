@@ -9,11 +9,14 @@ import { FormsModule } from "@angular/forms";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ToastrModule } from "ngx-toastr";
 import { ShopperComponent } from './shopper/shopper.component';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ShopperComponent
+    ShopperComponent,
+    ShoppingListComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +24,7 @@ import { ShopperComponent } from './shopper/shopper.component';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatDialogModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'

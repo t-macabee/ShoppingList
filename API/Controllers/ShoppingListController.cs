@@ -80,7 +80,7 @@ namespace API.Controllers
             uow.ShoppingListRepository.Remove(shopper.ShoppingList);
 
             if (await uow.Complete())
-                return Ok("List removed");
+                return Ok();
 
             return BadRequest("Failed to remove the shopping list");
         }
@@ -98,11 +98,9 @@ namespace API.Controllers
             if (item == null)
                 return BadRequest("Item not found");
 
-            // Check if the item is already in the shopping list
             if (shoppingList.ShoppingListItems.Any(x => x.ItemId == itemId))
                 return BadRequest("Item is already in the shopping list");
 
-            // Check if the item is already in three or more shopping lists
             var itemCountInOtherLists = await uow.ShoppingListRepository.GetItemCount(itemId);
 
             if (itemCountInOtherLists >= 3)

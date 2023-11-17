@@ -10,14 +10,25 @@
     <tr>
       <th>Name</th>
       <th></th>
+      <th></th>
     </tr>
     </thead>
     <tbody *ngFor="let x of shoppers">
     <tr>
       <td><b>{{x.shopperName}}</b></td>
-      <td><button class="btn btn-secondary float-end">List</button></td>
+      <td>
+        <button
+          class="btn btn-outline-success"
+          (click)="openForm(x)">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+      </td>
+      <td>
+        <button
+          class="btn btn-danger"
+          (click)="deleteList(x)">
+      <i class="fa fa-minus" aria-hidden="true"></i>
+    </button></td>
     </tr>
     </tbody>
   </table>
 </div>
-
