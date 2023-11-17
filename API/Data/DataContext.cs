@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class DataContext : DbContext
+    public partial class DataContext : DbContext
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -17,8 +17,7 @@ namespace API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.Entity<ShoppingListItem>()
                 .HasKey(sl => new { sl.ShoppingListId, sl.ItemId });
 
@@ -33,6 +32,10 @@ namespace API.Data
                 .WithMany(i => i.ShoppingListItems)
                 .HasForeignKey(sl => sl.ItemId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

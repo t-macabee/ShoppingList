@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace API.Data.Migrations
 {
@@ -17,9 +18,7 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,7 +45,6 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ListName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ShopperId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -82,6 +80,30 @@ namespace API.Data.Migrations
                         principalTable: "ShoppingLists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Items",
+                columns: new[] { "Id", "ItemName" },
+                values: new object[,]
+                {
+                    { 1, "Pepper" },
+                    { 2, "Soap" },
+                    { 3, "Salmon" },
+                    { 4, "Milk" },
+                    { 5, "Lightbulb" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Shoppers",
+                columns: new[] { "Id", "ShopperName" },
+                values: new object[,]
+                {
+                    { 1, "Till" },
+                    { 2, "Iago" },
+                    { 3, "Flo" },
+                    { 4, "Eli" },
+                    { 5, "Jon" }
                 });
 
             migrationBuilder.CreateIndex(

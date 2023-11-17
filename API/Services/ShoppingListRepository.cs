@@ -50,6 +50,17 @@ namespace API.Services
                 .Include(x => x.ShoppingListItems)
                 .ThenInclude(x => x.Item)
                 .FirstOrDefaultAsync(x => x.Id == shoppingListId);
-        }        
+        }
+
+        public async Task<int> GetItemCount(int itemId)
+        {
+            return await context.ShoppingListItems.CountAsync(x => x.ItemId == itemId);
+        }
+
+        public  async Task<bool> ListExists(string listName, int shopperId)
+        {
+            return await context.ShoppingLists
+                .AnyAsync(x => x.ShopperId == shopperId && x.ListName.ToLower() == listName.ToLower());
+        }
     }
 }
