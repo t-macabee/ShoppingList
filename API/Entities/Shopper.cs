@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string ShopperName { get; set; }
-        public ICollection<ShoppingList> ShoppingList { get; set; }
+        public ShoppingList ShoppingList { get; set; }
     }
 }

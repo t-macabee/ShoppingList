@@ -33,14 +33,13 @@ namespace API.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<ShoppingList>> GetListsForShopper(int shopperId)
+        public async Task<ShoppingList> GetListForShopper(int shopperId)
         {
             return await context.ShoppingLists
-                .Where(x => x.ShopperId == shopperId)
                 .Include(x => x.Shopper)
                 .Include(x => x.ShoppingListItems)
                 .ThenInclude(x => x.Item)
-                .ToListAsync();
+                .FirstOrDefaultAsync(x => x.ShopperId == shopperId);
         }
 
         public async Task<ShoppingList> GetListById(int shoppingListId)
@@ -55,12 +54,6 @@ namespace API.Services
         public async Task<int> GetItemCount(int itemId)
         {
             return await context.ShoppingListItems.CountAsync(x => x.ItemId == itemId);
-        }
-
-        public  async Task<bool> ListExists(string listName, int shopperId)
-        {
-            return await context.ShoppingLists
-                .AnyAsync(x => x.ShopperId == shopperId && x.ListName.ToLower() == listName.ToLower());
-        }
+        }        
     }
 }

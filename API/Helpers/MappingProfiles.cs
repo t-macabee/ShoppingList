@@ -11,10 +11,9 @@ namespace API.Helpers
             CreateMap<Item, ItemDto>();
 
             CreateMap<Shopper, ShopperDto>()
-                .ForMember(dest => dest.ShoppingLists, opt => opt.MapFrom(src => src.ShoppingList));
+                .ForMember(dest => dest.ShoppingList, opt => opt.MapFrom(src => src.ShoppingList));
 
-            CreateMap<ShoppingList, ShoppingListDto>()
-                .ForMember(dest => dest.ShopperName, opt => opt.MapFrom(src => src.Shopper.ShopperName))
+            CreateMap<ShoppingList, ShoppingListDto>()                
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.ShoppingListItems.Select(sli => sli.Item.ItemName)));
         }
     }

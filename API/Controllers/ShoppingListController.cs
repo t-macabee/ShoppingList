@@ -34,9 +34,9 @@ namespace API.Controllers
         }
 
         [HttpGet("shopperId")]
-        public async Task<ActionResult<IEnumerable<ShoppingListDto>>> GetListsForShopper(int shopperId)
+        public async Task<ActionResult<ShoppingListDto>> GetListForShopper(int shopperId)
         {
-            var lists = await uow.ShoppingListRepository.GetListsForShopper(shopperId);
+            var lists = await uow.ShoppingListRepository.GetListForShopper(shopperId);
             return Ok(mapper.Map<IEnumerable<ShoppingListDto>>(lists));
         }
 
@@ -45,100 +45,102 @@ namespace API.Controllers
         {
             var shopper = await uow.ShopperRepository.GetShopperById(shopperId);
 
-            if (shopper == null) 
+            if (shopper == null)
                 return BadRequest("Shopper doesn't exist");
-            
-            if (await uow.ShoppingListRepository.ListExists(listName, shopperId)) 
-                return BadRequest("List under this name exists");
-            
+
+            if (shopper.ShoppingList != null)
+                return BadRequest("Shopper already has a shopping list");
+
             var newList = new ShoppingList
-            {                
+            {
                 ListName = listName,
                 ShopperId = shopperId
             };
 
             uow.ShoppingListRepository.Create(newList);
 
-            if (await uow.Complete()) 
-                return Ok(mapper.Map<ShoppingListDto>(newList));            
+            if (await uow.Complete())
+                return Ok(mapper.Map<ShoppingListDto>(newList));
 
             return BadRequest("Failed to create a new list");
         }
+
 
         [HttpDelete("remove-list")]
         public async Task<IActionResult> RemoveShoppingList(int shopperId, int shoppingListId)
         {
             var shopper = await uow.ShopperRepository.GetShopperById(shopperId);
 
-            if (shopper == null) 
+            if (shopper == null)
                 return BadRequest("Shopper doesn't exist");
 
-            var shoppingList = shopper.ShoppingList.FirstOrDefault(x => x.Id == shoppingListId);
+            if (shopper.ShoppingList == null || shopper.ShoppingList.Id != shoppingListId)
+                return BadRequest("Shopper does not have the specified shopping list");
 
-            if (shoppingList == null) 
-                return BadRequest("Shopper does not have the specified shopping list");            
+            uow.ShoppingListRepository.Remove(shopper.ShoppingList);
 
-            uow.ShoppingListRepository.Remove(shoppingList);
-
-            if (await uow.Complete()) 
-                return Ok("List removed");            
+            if (await uow.Complete())
+                return Ok("List removed");
 
             return BadRequest("Failed to remove the shopping list");
         }
 
         [HttpPost("add-item")]
-        public async Task<IActionResult> AddItemToList(int shoppingListId, int itemId)
+        public async Task<IActionResult> AddItemToList(int listId, int itemId)
         {
-            var shoppingList = await uow.ShoppingListRepository.GetListById(shoppingListId);
+            var shoppingList = await uow.ShoppingListRepository.GetListById(listId);
 
-            if (shoppingList == null) 
+            if (shoppingList == null)
                 return BadRequest("Shopping list not found");
-            
+
             var item = await uow.ItemRepository.GetItemById(itemId);
 
             if (item == null)
                 return BadRequest("Item not found");
 
-            var itemCountInLists = await uow.ShoppingListRepository.GetItemCount(itemId);
-
-            if (itemCountInLists >= 3) 
-                return BadRequest("Item cannot be added to more than three shopping lists");
-
+            // Check if the item is already in the shopping list
             if (shoppingList.ShoppingListItems.Any(x => x.ItemId == itemId))
                 return BadRequest("Item is already in the shopping list");
 
+            // Check if the item is already in three or more shopping lists
+            var itemCountInOtherLists = await uow.ShoppingListRepository.GetItemCount(itemId);
+
+            if (itemCountInOtherLists >= 3)
+                return BadRequest("Item cannot be added to more than three shopping lists");
+
             shoppingList.ShoppingListItems.Add(new ShoppingListItem { ItemId = itemId });
 
-            if (await uow.Complete()) 
+            if (await uow.Complete())
                 return Ok(mapper.Map<ShoppingListDto>(shoppingList));
 
             return BadRequest("Failed to add item to the shopping list");
         }
+
 
         [HttpDelete("remove-item")]
         public async Task<IActionResult> RemoveItemFromList(int shoppingListId, int itemId)
         {
             var shoppingList = await uow.ShoppingListRepository.GetListById(shoppingListId);
 
-            if (shoppingList == null) 
+            if (shoppingList == null)
                 return BadRequest("Shopping list not found");
 
             var item = await uow.ItemRepository.GetItemById(itemId);
 
-            if (item == null) 
-                return BadRequest("Item not found");           
-
+            if (item == null)
+                return BadRequest("Item not found");
+            
             var shoppingListItem = shoppingList.ShoppingListItems.FirstOrDefault(x => x.ItemId == itemId);
 
-            if (shoppingListItem == null) 
+            if (shoppingListItem == null)
                 return BadRequest("Item is not in the shopping list");
 
             shoppingList.ShoppingListItems.Remove(shoppingListItem);
 
-            if (await uow.Complete()) 
+            if (await uow.Complete())
                 return Ok(mapper.Map<ShoppingListDto>(shoppingList));
 
             return BadRequest("Failed to remove item from the shopping list");
-        }        
+        }
     }
 }

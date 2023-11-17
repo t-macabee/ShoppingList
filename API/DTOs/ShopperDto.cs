@@ -6,6 +6,6 @@ namespace API.DTOs
     {
         public int Id { get; set; }
         public string ShopperName { get; set; }
-        public IEnumerable<ShoppingListDto> ShoppingLists { get; set; }
+        public ShoppingListDto ShoppingList { get; set; }
     }
 }

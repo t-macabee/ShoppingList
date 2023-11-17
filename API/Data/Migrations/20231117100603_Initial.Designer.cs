@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231117075049_Initial")]
+    [Migration("20231117100603_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -129,7 +129,8 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopperId");
+                    b.HasIndex("ShopperId")
+                        .IsUnique();
 
                     b.ToTable("ShoppingLists");
                 });
@@ -152,8 +153,8 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.ShoppingList", b =>
                 {
                     b.HasOne("API.Entities.Shopper", "Shopper")
-                        .WithMany("ShoppingList")
-                        .HasForeignKey("ShopperId")
+                        .WithOne("ShoppingList")
+                        .HasForeignKey("API.Entities.ShoppingList", "ShopperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -186,7 +187,8 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Shopper", b =>
                 {
-                    b.Navigation("ShoppingList");
+                    b.Navigation("ShoppingList")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Entities.ShoppingList", b =>

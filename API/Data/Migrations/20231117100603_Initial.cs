@@ -114,7 +114,8 @@ namespace API.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingLists_ShopperId",
                 table: "ShoppingLists",
-                column: "ShopperId");
+                column: "ShopperId",
+                unique: true);
         }
 
         /// <inheritdoc />
