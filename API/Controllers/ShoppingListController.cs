@@ -26,21 +26,21 @@ namespace API.Controllers
             return Ok(mapper.Map<IEnumerable<ShoppingListDto>>(lists));
         }
 
-        [HttpGet("id")]
-        public async Task<ActionResult<ShoppingListDto>> GetListById(int shoppingListId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ShoppingListDto>> GetListById(int id)
         {
-            var list = await uow.ShoppingListRepository.GetListById(shoppingListId);
+            var list = await uow.ShoppingListRepository.GetListById(id);
             return Ok(mapper.Map<ShoppingListDto>(list));
         }
 
-        [HttpGet("shopperId")]
-        public async Task<ActionResult<ShoppingListDto>> GetListForShopper(int shopperId)
+        [HttpGet("listByShopper/{id}")]
+        public async Task<ActionResult<ShoppingListDto>> GetListForShopper(int id)
         {
-            var lists = await uow.ShoppingListRepository.GetListForShopper(shopperId);
-            return Ok(mapper.Map<IEnumerable<ShoppingListDto>>(lists));
+            var lists = await uow.ShoppingListRepository.GetListForShopper(id);
+            return Ok(mapper.Map<ShoppingListDto>(lists));
         }
 
-        [HttpPost("create-list")]
+        [HttpPost("create-list/{shopperId}/{listName}")]
         public async Task<IActionResult> CreateShoppingList(int shopperId, string listName)
         {
             var shopper = await uow.ShopperRepository.GetShopperById(shopperId);
@@ -66,15 +66,15 @@ namespace API.Controllers
         }
 
 
-        [HttpDelete("remove-list")]
-        public async Task<IActionResult> RemoveShoppingList(int shopperId, int shoppingListId)
+        [HttpDelete("remove-list/{shopperId}/{listId}")]
+        public async Task<IActionResult> RemoveShoppingList(int shopperId, int listId)
         {
             var shopper = await uow.ShopperRepository.GetShopperById(shopperId);
 
             if (shopper == null)
                 return BadRequest("Shopper doesn't exist");
 
-            if (shopper.ShoppingList == null || shopper.ShoppingList.Id != shoppingListId)
+            if (shopper.ShoppingList == null || shopper.ShoppingList.Id != listId)
                 return BadRequest("Shopper does not have the specified shopping list");
 
             uow.ShoppingListRepository.Remove(shopper.ShoppingList);
@@ -85,7 +85,7 @@ namespace API.Controllers
             return BadRequest("Failed to remove the shopping list");
         }
 
-        [HttpPost("add-item")]
+        [HttpPost("add-item/{listId}/{itemId}")]
         public async Task<IActionResult> AddItemToList(int listId, int itemId)
         {
             var shoppingList = await uow.ShoppingListRepository.GetListById(listId);
@@ -117,10 +117,10 @@ namespace API.Controllers
         }
 
 
-        [HttpDelete("remove-item")]
-        public async Task<IActionResult> RemoveItemFromList(int shoppingListId, int itemId)
+        [HttpDelete("remove-item/{listId}/{itemId}")]
+        public async Task<IActionResult> RemoveItemFromList(int listId, int itemId)
         {
-            var shoppingList = await uow.ShoppingListRepository.GetListById(shoppingListId);
+            var shoppingList = await uow.ShoppingListRepository.GetListById(listId);
 
             if (shoppingList == null)
                 return BadRequest("Shopping list not found");

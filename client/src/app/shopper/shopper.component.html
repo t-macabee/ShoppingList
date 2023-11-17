@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand me-5">Shopping list</a>
+  </div>
+</nav>
+
+<div class="table-container">
+  <table class="table table-responsive">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let x of shoppers">
+    <tr>
+      <td><b>{{x.shopperName}}</b></td>
+      <td><button class="btn btn-secondary float-end">List</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
