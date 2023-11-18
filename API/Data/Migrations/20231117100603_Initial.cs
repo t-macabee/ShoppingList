@@ -100,7 +100,7 @@ namespace API.Data.Migrations
                 values: new object[,]
                 {
                     { 1, "Till" },
-                    { 2, "Iago" },
+                    { 2, "Ida" },
                     { 3, "Flo" },
                     { 4, "Eli" },
                     { 5, "Jon" }

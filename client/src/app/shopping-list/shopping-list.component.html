@@ -1,4 +1,35 @@
-<div><br>
-  <h4>{{ shopper.shoppingList.listName }}</h4><hr>
-</div>
+<div class="mat-mdc-dialog-surface mdc-dialog__surface">
+  <div class="d-flex flex-column" style="height: 100%;">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary" (click)="closeDialog()" style="margin-top: 5px; margin-right: 5px">
+        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+      </button>
+    </div>
 
+    <h5 class="text-center mb-4">{{ shopper.shoppingList.listName }}</h5>
+    <hr><br>
+
+    <div class="table-container">
+      <table class="table table-responsive" *ngIf="shopper.shoppingList">
+        <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of shopper.shoppingList.items">
+          <td><b>{{ item }}</b></td>
+          <td>
+            <button>-</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <div class="d-flex justify-content-end" style="margin-top: auto; margin-right: 5px; margin-bottom: 5px;">
+      <button class="btn btn-outline-secondary" (click)="itemList()">View items</button>
+  </div>
+</div>
+</div>

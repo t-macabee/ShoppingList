@@ -42,8 +42,9 @@ export class ShopperComponent {
 
   openList(shopper: Shopper) {
     const dialogRef = this.dialog.open(ShoppingListComponent, {
-      height: '400px',
-      width: '400px',
+      height: '500px',
+      width: '500px',
+      disableClose: true,
       data: { shopper: shopper }
     });
 
@@ -53,7 +54,7 @@ export class ShopperComponent {
   }
 
   createList(shopper: Shopper) {
-    const createList = confirm('You don\'t have a shopping list. Do you want to create one?');
+    const createList = confirm('Shopper doesn\'t have a shopping list. Do you want to create one?');
 
     if(createList) {
       const listName = `${shopper.shopperName}'s List`;
@@ -71,7 +72,7 @@ export class ShopperComponent {
 
   deleteList(shopper: Shopper) {
     if (!shopper.shoppingList) {
-      this.toastr.warning('Shopping list is already deleted.');
+      this.toastr.warning('Shopping list is already removed.');
       return;
     }
     const listId = shopper.shoppingList.id;

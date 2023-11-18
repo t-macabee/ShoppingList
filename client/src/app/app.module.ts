@@ -11,12 +11,14 @@ import { ToastrModule } from "ngx-toastr";
 import { ShopperComponent } from './shopper/shopper.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { ItemListComponent } from './item-list/item-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShopperComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,
