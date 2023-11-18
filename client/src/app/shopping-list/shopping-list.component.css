@@ -6,7 +6,7 @@
 }
 
 .table-container table {
-  width: 30%;
+  width: 50%;
   margin: 0 auto;
 }
 
@@ -16,16 +16,15 @@
 
 th, td {
   text-align: center;
-  width: 40%;
+  width: 30%;
   border-bottom: none;
 }
 
 .button {
-  margin-left: 15px;
-  border-radius: 10px;
+  border-radius: 15%;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #04AA6D; /* Green */
-  color: white;
+  background-color: #2980b9;
 }

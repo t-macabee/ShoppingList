@@ -24,13 +24,6 @@ namespace API.Controllers
         {
             var items = await uow.ItemRepository.GetItems();
             return Ok(mapper.Map<IEnumerable<ItemDto>>(items));
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDto>> GetItemById(int id)
-        {
-            var item = await uow.ItemRepository.GetItemById(id);
-            return Ok(mapper.Map<ItemDto>(item));
-        }        
+        }            
     }
 }

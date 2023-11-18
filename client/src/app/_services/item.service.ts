@@ -13,8 +13,4 @@ export class ItemService {
   getItems() {
     return this.http.get<any>(this.baseUrl + 'Item');
   }
-
-  getItem(id: number) {
-    return this.http.get(this.baseUrl + 'Item/' + id);
-  }
 }

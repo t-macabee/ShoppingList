@@ -1,8 +1,9 @@
 <div class="mat-mdc-dialog-surface mdc-dialog__surface">
   <div class="d-flex flex-column" style="height: 100%;">
     <div class="d-flex justify-content-end">
-      <button class="btn btn-secondary" style="margin-top: 5px; margin-right: 5px" (click)="closeDialog()">
-        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+      <button
+        style="margin-top: 5px; margin-right: 5px"
+        (click)="closeDialog()">❌
       </button>
     </div>
     <div class="table-container">
@@ -11,7 +12,9 @@
         <tr>
           <td><b>{{x.itemName}}</b></td>
           <td>
-            <button (click)="addItem(x.id)">+</button>
+            <button
+              (click)="addItem(x)">✔
+            </button>
           </td>
         </tr>
         </tbody>

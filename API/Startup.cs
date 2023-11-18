@@ -5,7 +5,6 @@ using API.NewFolder;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Text.Json.Serialization;
 
 namespace API
 {

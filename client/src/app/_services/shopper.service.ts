@@ -14,8 +14,4 @@ export class ShopperService {
   getShoppers() {
     return this.http.get<Shopper[]>(this.baseUrl + 'Shopper');
   }
-
-  getShopper(id: number) {
-    return this.http.get<Shopper>(this.baseUrl + 'Shopper/' + id);
-  }
 }

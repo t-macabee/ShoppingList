@@ -17,17 +17,10 @@
     <tr>
       <td><b>{{x.shopperName}}</b></td>
       <td>
-        <button
-          class="btn btn-outline-success"
-          (click)="openForm(x)">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+        <button (click)="openForm(x)">🛒</button>
       </td>
       <td>
-        <button
-          class="btn btn-danger"
-          (click)="deleteList(x)">
-      <i class="fa fa-minus" aria-hidden="true"></i>
-    </button></td>
+        <button (click)="deleteList(x)">🗑️</button></td>
     </tr>
     </tbody>
   </table>

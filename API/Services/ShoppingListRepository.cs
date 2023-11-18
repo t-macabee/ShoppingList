@@ -22,16 +22,7 @@ namespace API.Services
         public void Remove(ShoppingList shoppingList)
         {
             context.ShoppingLists.Remove(shoppingList);
-        }
-
-        public async Task<IEnumerable<ShoppingList>> GetAllLists()
-        {
-            return await context.ShoppingLists
-                .Include(x => x.Shopper)
-                .Include(x => x.ShoppingListItems)
-                .ThenInclude(x => x.Item)
-                .ToListAsync();
-        }
+        }       
 
         public async Task<ShoppingList> GetListForShopper(int shopperId)
         {

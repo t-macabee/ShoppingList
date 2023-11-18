@@ -1,10 +1,11 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace API.Controllers
 {
@@ -19,22 +20,8 @@ namespace API.Controllers
             this.mapper = mapper;            
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<IEnumerable<ShoppingListDto>>> GetAllLists()
-        {
-            var lists = await uow.ShoppingListRepository.GetAllLists();
-            return Ok(mapper.Map<IEnumerable<ShoppingListDto>>(lists));
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ShoppingListDto>> GetListById(int id)
-        {
-            var list = await uow.ShoppingListRepository.GetListById(id);
-            return Ok(mapper.Map<ShoppingListDto>(list));
-        }
-
         [HttpGet("listByShopper/{id}")]
-        public async Task<ActionResult<ShoppingListDto>> GetListForShopper(int id)
+        public async Task<ActionResult<ShoppingListDto>> GetListByShopper(int id)
         {
             var lists = await uow.ShoppingListRepository.GetListForShopper(id);
             return Ok(mapper.Map<ShoppingListDto>(lists));
@@ -98,19 +85,32 @@ namespace API.Controllers
             if (item == null)
                 return BadRequest("Item not found");
 
+            var response = new ItemResponse();
+
             if (shoppingList.ShoppingListItems.Any(x => x.ItemId == itemId))
-                return BadRequest("Item is already in the shopping list");
+            {
+                response.CanAddItem = false;
+                return Ok(response);
+            }
+                
+            var itemCount = await uow.ShoppingListRepository.GetItemCount(itemId);
 
-            var itemCountInOtherLists = await uow.ShoppingListRepository.GetItemCount(itemId);
-
-            if (itemCountInOtherLists >= 3)
-                return BadRequest("Item cannot be added to more than three shopping lists");
-
+            if (itemCount >= 3)
+            {
+                response.CanAddItem = false;
+                return Ok(response);
+            }
+               
             shoppingList.ShoppingListItems.Add(new ShoppingListItem { ItemId = itemId });
 
             if (await uow.Complete())
-                return Ok(mapper.Map<ShoppingListDto>(shoppingList));
+            {
+                response.CanAddItem = true;
+                response.ShoppingList = mapper.Map<ShoppingListDto>(shoppingList);
+                return Ok(response);
+            }
 
+            response.CanAddItem = false;
             return BadRequest("Failed to add item to the shopping list");
         }
 

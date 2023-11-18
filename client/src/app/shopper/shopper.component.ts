@@ -42,8 +42,8 @@ export class ShopperComponent {
 
   openList(shopper: Shopper) {
     const dialogRef = this.dialog.open(ShoppingListComponent, {
-      height: '500px',
-      width: '500px',
+      height: '450px',
+      width: '400px',
       disableClose: true,
       data: { shopper: shopper }
     });

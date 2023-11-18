@@ -24,12 +24,5 @@ namespace API.Controllers
             var shoppers = await uow.ShopperRepository.GetShoppers();
             return Ok(mapper.Map<IEnumerable<ShopperDto>>(shoppers));
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Shopper>> GetShopperById(int id)
-        {
-            var shopper = await uow.ShopperRepository.GetShopperById(id);
-            return Ok(mapper.Map<ShopperDto>(shopper));
-        }
     }
 }
