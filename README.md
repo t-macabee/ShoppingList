@@ -1,1 +1,3 @@
 # Tacta_ShoppingList
+
+Simple shopping list creator, with slight management options. Web application was created using .NET and Angular framework, therefore Visual Studio 2022, WebStorm 2022 and SQL Server was used (SQLite can be used aswell). After running the API in Visual Studio, it is necessary to execute 'update-database' command in Packet Manager Console. It will run premade migration that contains user seed data. After running the Client in WebStorm, it is necessary to run npm install command. It is used to install all project dependencies. Things to check after cloning the application are connection string (it can be found in appsettings.json in API), and URL that Swagger uses (it can be found in environments folder in Client). Compare it and change if necessary.
