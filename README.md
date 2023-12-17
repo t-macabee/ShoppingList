@@ -1,6 +1,6 @@
-# Tacta_ShoppingList
+# ShoppingList
 
-Tacta_ShoppingList is a straightforward shopping list creator with convenient management options. This web application is built using the .NET and Angular frameworks, utilizing tools such as Visual Studio 2022, WebStorm 2022, and SQL Server (SQLite can also be used).
+ShoppingList is a straightforward shopping list creator with convenient management options. This web application is built using the .NET and Angular frameworks, utilizing tools such as Visual Studio 2022, WebStorm 2022, and SQL Server (SQLite can also be used).
 
 ## Setup Instructions
 
